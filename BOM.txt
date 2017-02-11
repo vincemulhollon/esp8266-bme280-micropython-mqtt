@@ -1,0 +1,32 @@
+esp8266-bme280-micropython
+
+bom.txt
+
+
+The specific ESP8266 board is a NodeMCU V1.0 "aka new version" the one found on Amazon for $8.
+The external dev board silk screen has little in common with the CPU oriented defintions.
+What this means is what the CPU and micropython call GPIO5 is labeled D1 on the board.
+GPIO4 is labeled D2 in the board.  There is an active low LED connected to GPIO16 aka silkscreen
+D0, which is why I wired the I2C to pins D1 and D2 instead of starting at D0, and explains the 
+strange pin numbers in Python.
+The board design is opensource at https://github.com/nodemcu/nodemcu-devkit-v1.0
+The exact MicroPython firmware installed is esp8266-20170108-v1.8.7.bin
+
+
+The BME280 board is an Adafruit breakout board that costs $20, yes a glorified thermometer costs
+more than twice as much as the board that controls it and connects to wifi.
+
+Silkscreen Vin on the ESP8266 connects to silkscreen Vin on the BME280
+
+Silkscreen GND on the ESP8266 connects to silkscreen GND on the BME280
+
+Silkscreen D1 (aka GPIO5) on the ESP8266 connects to silkscreen SCK on the BME280 this is the I2C clock
+
+Silkscreen D2 (aka GPIO4) on the ESP8266 connects to silkscreen SDI on the BME280 this is the I2C data
+
+The default I2C address for the Adafruit breakout is 0x77, if the SDO pin is grounded it changes to 0x76
+The default I2C address for the BME280 driver is 0x76, so I need to ground SDO pin
+
+BME280 boards are double-buffered.  To get a current reading you need to do a read, discard, do a second
+read.
+
