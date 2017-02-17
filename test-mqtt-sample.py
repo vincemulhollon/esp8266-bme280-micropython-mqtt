@@ -21,7 +21,7 @@ from umqtt.robust import MQTTClient
 MqttClient = "name" # Perhaps "office-weather-sensor"
 MqttUrl = "mqtt.server.host.name" # Perhaps "io.adafruit.com"
 MqttUsername = "YourLoginName" # Your MQTT login name
-MqttAioKey = "ba11dc82629b469e9f73246c7e8ca2e4" # Your MQTT AIO key.  Perhaps 32 hexadecimal digits
+MqttAioKey = "12345678901234567890123456789012" # Your MQTT AIO key.  Perhaps 32 hexadecimal digits
 MqttGroupName = "your-group-name" # Your MQTT group name.   Perhaps the same as client name.
 
 temperature = 72.1 # F
