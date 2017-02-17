@@ -1,7 +1,8 @@
-# i2c.py
+# test-i2c.py
 #
 # Assumes the modified catdog2 BME driver has been uploaded via ./ampy
 # This script is a good way to test the wiring and I2C operation
+# It doesn't require working wifi or any of that.
 
 import machine
 from machine import I2C, Pin
