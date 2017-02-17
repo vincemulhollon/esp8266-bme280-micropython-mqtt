@@ -1,3 +1,7 @@
+This applies to all but bme280.py which originally came from
+https://github.com/catdog2/mpy_bme280_esp8266 and contains
+a license of its own in its header.
+
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
