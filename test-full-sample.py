@@ -27,11 +27,14 @@ scl = Pin(5)
 sda = Pin(4)
 i2c = I2C(scl=scl, sda=sda)
 
-connection = MQTTClient(MqttClient, MqttUrl, 0, MqttUsername, MqttPassword)
+led = machine.Pin(16, machine.Pin.OUT)
 
+connection = MQTTClient(MqttClient, MqttUrl, 0, MqttUsername, MqttPassword)
 connection.connect()
 
 while True:
+
+    led.low()
 
     bme=BME280(i2c=i2c)
     temperature = bme.values[0]
@@ -46,6 +49,8 @@ while True:
     connection.publish("sensor/" + MqttUsername + "/humidity", str(humidity), qos=1)
     connection.publish("sensor/" + MqttUsername + "/pressure", str(pressure), qos=1)
     connection.publish("sensor/" + MqttUsername + "/ipaddress", ipaddress, qos=1)
+
+    led.high()
 
     time.sleep(59)
 
