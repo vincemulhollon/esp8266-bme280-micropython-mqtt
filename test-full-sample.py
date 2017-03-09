@@ -1,6 +1,4 @@
-# test-full-sample.py
-#
-# copy to test-full.py and edit the variables below
+# test-full.py
 #
 # Full test of a sensor sample and MQTT publish.
 #
@@ -19,17 +17,17 @@ from machine import I2C, Pin
 import bme280
 from bme280 import BME280
 
-MqttClient = "name" # Perhaps "office-weather-sensor"
-MqttUrl = "mqtt.server.host.name" # Perhaps "io.adafruit.com"
-MqttUsername = "YourLoginName" # Your MQTT login name
-MqttAioKey = "12345678901234567890123456789012" # Your MQTT AIO key.  Perhaps 32 hexadecimal digits
-MqttGroupName = "your-group-name" # Your MQTT group name.   Perhaps the same as client name.
+MqttClient = "name" # Perhaps "office-bme280"
+MqttUrl = "mqtt.server.host.name" # Perhaps "rabbitmq.example.com"
+MqttUsername = "YourLoginName" # Your MQTT login name perhaps "office-bme280"
+MqttPassword = "12345678901234567890123456789012" # Your MQTT AIO key.  Perhaps 32 hexadecimal digits
+location = "office" # sensor location perhaps "office"
 
 scl = Pin(5)
 sda = Pin(4)
 i2c = I2C(scl=scl, sda=sda)
 
-connection = MQTTClient(MqttClient, MqttUrl, 0, MqttUsername, MqttAioKey)
+connection = MQTTClient(MqttClient, MqttUrl, 0, MqttUsername, MqttPassword)
 
 connection.connect()
 
@@ -41,11 +39,14 @@ while True:
     pressure = bme.values[1]
     ipaddress = sta_if.ifconfig()[0]
 
-    connection.publish(MqttUsername + "/" + "feeds/" + MqttGroupName + "." + "temperature", str(temperature))
-    connection.publish(MqttUsername + "/" + "feeds/" + MqttGroupName + "." + "humidity", str(humidity))
-    connection.publish(MqttUsername + "/" + "feeds/" + MqttGroupName + "." + "pressure", str(pressure))
-    connection.publish(MqttUsername + "/" + "feeds/" + MqttGroupName + "." + "ipaddress", ipaddress)
+    connection.publish("home/" + location + "/temperature", str(temperature), qos=1)
+    connection.publish("home/" + location + "/humidity", str(humidity), qos=1)
+    connection.publish("home/" + location + "/pressure", str(pressure), qos=1)
+    connection.publish("sensor/" + MqttUsername + "/temperature", str(temperature), qos=1)
+    connection.publish("sensor/" + MqttUsername + "/humidity", str(humidity), qos=1)
+    connection.publish("sensor/" + MqttUsername + "/pressure", str(pressure), qos=1)
+    connection.publish("sensor/" + MqttUsername + "/ipaddress", ipaddress, qos=1)
 
-    time.sleep(120)
+    time.sleep(59)
 
 #
